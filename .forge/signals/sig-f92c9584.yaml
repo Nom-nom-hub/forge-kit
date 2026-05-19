@@ -1,0 +1,48 @@
+forge_type: signal
+id: sig-f92c9584
+version: "1.0.0"
+created_at: 2026-05-19T02:31:30Z
+created_by: teck
+status: raw
+
+signal:
+  category: team_observation
+  source:
+    type: team_retro
+    reference: rsp-5800e091
+    confidence: 0.85
+  observation: |
+    The TTY-detect/fallback-defaults pattern used for interactive forge init
+    preserved backward compatibility for CI/pipe usage without any extra effort.
+    By detecting sys.stdin.isatty() and falling back to copilot+bash defaults,
+    existing scripts and CI pipelines continued working identically. This
+    architectural pattern (interactive when human-present, default when piped)
+    is effective for CLI tooling and should be the standard for any future
+    interactive features.
+  evidence:
+    - type: text
+      content: "echo '' | forge init /tmp/test --force confirmed non-TTY fallback works without hanging or prompting"
+      timestamp: 2026-05-19T02:31:30Z
+  affected_dimensions:
+    - users: "team"
+      frequency: often
+      severity: medium
+  raw_tags:
+    - cli-design
+    - backward-compatibility
+    - architectural-pattern
+
+context:
+  business_area: []
+  technical_area:
+    - cli
+    - architecture
+  time_sensitivity: medium
+
+links:
+  decisions:
+    - dec-4b7d91e3
+  features:
+    - fea-d5e1f8a2
+  experiments: []
+  retrospective: rsp-5800e091

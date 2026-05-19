@@ -1,5 +1,7 @@
 """Initialize a new FORGE project."""
 
+import shutil
+import sys
 from pathlib import Path
 
 import typer
@@ -9,9 +11,19 @@ from rich.prompt import Confirm
 console = Console()
 
 
+# Path to the bundled core_pack assets (installed with the package)
+_CORE_PACK = Path(__file__).resolve().parent.parent / "core_pack"
+
+
+def _is_interactive() -> bool:
+    """Check if stdin is a TTY (interactive mode)."""
+    return sys.stdin.isatty()
+
+
 def run_init(
     project_name: str | None = None,
     integration: str = "copilot",
+    script_type: str = "bash",
     force: bool = False,
 ) -> None:
     """Initialize a FORGE project directory."""
@@ -21,11 +33,14 @@ def run_init(
         target_dir = Path.cwd() / project_name
 
     if target_dir.exists() and not force:
+        if not _is_interactive():
+            console.print(
+                "[yellow]Directory already exists and no --force flag provided.[/yellow]\n"
+                "[yellow]Run with --force to overwrite, or specify a different project name.[/yellow]"
+            )
+            raise typer.Exit(code=1)
         if not Confirm.ask(f"Directory {target_dir} already exists. Continue?"):
-            typer.Exit(code=1)
-            return
-
-    target_dir.mkdir(parents=True, exist_ok=True)
+            raise typer.Exit(code=1)
 
     forge_dir = target_dir / ".forge"
     forge_dir.mkdir(parents=True, exist_ok=True)
@@ -44,6 +59,7 @@ def run_init(
         "templates",
         "templates/overrides",
         "templates/commands",
+        "templates/presets",
         "scripts/bash",
         "scripts/powershell",
         "graph",
@@ -53,10 +69,14 @@ def run_init(
     for subdir in subdirs:
         (forge_dir / subdir).mkdir(parents=True, exist_ok=True)
 
+    # Seed bundled assets into .forge/
+    if _CORE_PACK.is_dir():
+        _seed_assets(forge_dir, force)
+
     # Create initial forge config
     config_path = forge_dir / "forge.config.yaml"
     if not config_path.exists() or force:
-        _write_config(config_path)
+        _write_config(config_path, script_type)
 
     # Reference the FORGE methodology
     memory_dir = forge_dir / "memory"
@@ -71,23 +91,29 @@ def run_init(
     if not settings_path.exists() or force:
         _write_vscode_settings(settings_path)
 
+    # Install integration-specific context file so the AI agent
+    # knows about the FORGE slash commands in .forge/templates/commands/
+    _install_integration(str(target_dir), integration, force)
+
     console.print("[bold green]✅ FORGE project initialized![/bold green]")
     console.print(f"  📁 {target_dir}")
     console.print(f"  🔧 Integration: {integration}")
+    console.print(f"  📜 Script type: {script_type}")
     console.print("\nNext steps:")
     console.print(f"  1. cd {target_dir.name}")
     console.print("  2. /forge.signal — Capture your first signal")
     console.print("  3. /forge.hypothesize — Form a hypothesis")
 
 
-def _write_config(path: Path) -> None:
+def _write_config(path: Path, script_type: str = "bash") -> None:
     """Write the FORGE configuration file."""
-    config = """# .forge/forge.config.yaml
+    config = f"""# .forge/forge.config.yaml
 version: "1.0.0"
 project:
   id: ""
   name: ""
   team: ""
+  script_type: {script_type}
 
 staleness:
   signal_days: 90
@@ -175,3 +201,75 @@ def _write_vscode_settings(path: Path) -> None:
         except Exception:
             pass
     path.write_text(json.dumps(settings, indent=2))
+
+
+def _install_integration(target_dir: str, integration_key: str, force: bool = False) -> None:
+    """Install the integration-specific context file for the AI agent."""
+    from ..integrations import get_integration
+
+    integration = get_integration(integration_key)
+    if integration is None:
+        console.print(f"  [yellow]⚠ Integration '{integration_key}' not implemented yet — no context file created.[/yellow]")
+        return
+
+    try:
+        integration.setup(target_dir)
+        if integration.context_file:
+            console.print(f"  [dim]📋 {integration.context_file} — context file installed[/dim]")
+    except Exception as exc:
+        console.print(f"  [red]✗ Failed to install {integration_key} integration: {exc}[/red]")
+
+
+def _seed_assets(forge_dir: Path, force: bool = False) -> None:
+    """Copy bundled command templates, scripts, and presets into .forge/."""
+    core = _CORE_PACK
+
+    # Copy template files (signal-template.md, hypothesis-template.md, etc.) into .forge/templates/
+    templates_src = core / "templates"
+    templates_dst = forge_dir / "templates"
+    if templates_src.is_dir():
+        for item in templates_src.iterdir():
+            dst = templates_dst / item.name
+            if not dst.exists() or force:
+                if item.is_file():
+                    shutil.copy2(item, dst)
+
+    # Copy slash-command templates into .forge/templates/commands/
+    commands_src = core / "commands"
+    commands_dst = forge_dir / "templates" / "commands"
+    if commands_src.is_dir():
+        for item in commands_src.iterdir():
+            dst = commands_dst / item.name
+            if not dst.exists() or force:
+                if item.is_file():
+                    shutil.copy2(item, dst)
+
+    # Copy bash scripts into .forge/scripts/bash/
+    bash_src = core / "scripts" / "bash"
+    bash_dst = forge_dir / "scripts" / "bash"
+    if bash_src.is_dir():
+        for item in bash_src.iterdir():
+            dst = bash_dst / item.name
+            if not dst.exists() or force:
+                if item.is_file():
+                    shutil.copy2(item, dst)
+
+    # Copy powershell scripts into .forge/scripts/powershell/
+    ps_src = core / "scripts" / "powershell"
+    ps_dst = forge_dir / "scripts" / "powershell"
+    if ps_src.is_dir():
+        for item in ps_src.iterdir():
+            dst = ps_dst / item.name
+            if not dst.exists() or force:
+                if item.is_file():
+                    shutil.copy2(item, dst)
+
+    # Copy presets into .forge/templates/presets/
+    presets_src = core / "presets"
+    presets_dst = forge_dir / "templates" / "presets"
+    if presets_src.is_dir():
+        for preset_dir in presets_src.iterdir():
+            if preset_dir.is_dir():
+                dst = presets_dst / preset_dir.name
+                if not dst.exists() or force:
+                    shutil.copytree(preset_dir, dst, dirs_exist_ok=True)

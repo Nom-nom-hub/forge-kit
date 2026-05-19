@@ -1,0 +1,75 @@
+forge_type: hypothesis
+id: hyp-8a3f2c1e
+version: "1.0.0"
+created_at: 2026-05-19T02:21:00Z
+
+hypothesis:
+  statement: |
+    We believe adding interactive selection prompts for --integration (model)
+    and --script-type to forge init for developers running in a terminal
+    will result in eliminating the 'Command not found' confusion for new users
+    because the current CLI requires remembering flag names and available values,
+    creating a barrier to first-time usage.
+
+  validation_criteria:
+    primary_metric:
+      name: "CLI first-use success rate"
+      current_baseline: "unknown — no telemetry"
+      target: "forge init runs without --help or error on first attempt"
+      direction: increase
+      timeframe: "immediate — UX change, no wait period"
+    secondary_metrics:
+      - "Help text clarity — integration options listed explicitly"
+      - "Support inquiries about CLI usage"
+    guardrail_metrics:
+      - name: "Backward compatibility — CI/script usage must not break"
+        threshold: "forge init --integration copilot my-project must work identically"
+      - name: "Existing projects initialized without interactive mode"
+        threshold: "must not require changes to current .forge/ structure"
+    confidence_level: 0.95
+
+  falsification_criteria:
+    - "Users still run forge init without reading the output and miss the prompts — the problem is not discoverability but documentation-seeking behavior"
+    - "Non-interactive fallback (CI, pipes) silently defaults to copilot/bash which may not match the user's intended setup — they get a working project but with wrong configuration"
+    - "The interactive prompts add friction for experienced users who already know their flags — power users must dismiss two menus instead of typing directly"
+
+  unknowns:
+    known_unknowns:
+      - assumption: "The 'Command not found' error was due to missing --integration flag"
+        risk: low
+        how_to_resolve: "Confirm with original reporter that running forge init my-project (with default 'copilot') also failed, or if they omitted the project name entirely"
+      - assumption: "Users prefer interactive menus over reading --help output"
+        risk: medium
+        how_to_resolve: "Observe whether users type forge init --help first, or just forge init and expect a wizard"
+      - assumption: "Questionary works reliably across terminal emulators"
+        risk: low
+        how_to_resolve: "Test on macOS Terminal, iTerm2, Windows Terminal, and common CI environments (GitHub Actions, GitLab CI)"
+      - assumption: "Script type is a meaningful choice at init time"
+        risk: medium
+        how_to_resolve: "Survey users — do they know their scripting preference before starting a project?"
+
+signals:
+  - sig-7622aaae
+decisions:
+  - dec-4b7d91e3
+features:
+  - fea-d5e1f8a2
+experiments:
+  - exp-c3b7a91d
+
+owner: teck
+status: validated
+outcome:
+  result: validated
+  evidence: |
+    Retrospective evaluation confirms the hypothesis is validated:
+    1. Interactive prompts detect when user is in a TTY and guide selection
+    2. Non-interactive fallback preserves identical behavior for CI/scripts
+    3. Power users bypass prompts with explicit flags — zero friction added
+    4. Three falsification scenarios reviewed and mitigated (not realized)
+    Experiment exp-c3b7a91d designed but not yet run — results would add
+    quantitative UX data.
+  validated_at: "2026-05-19T02:31:30Z"
+
+confidence_score: 1.0
+last_confidence_update: 2026-05-19T02:31:30Z

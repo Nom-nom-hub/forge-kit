@@ -1,0 +1,15 @@
+{
+    "chat.promptFilesRecommendations": {
+        "forge.signal": true,
+        "forge.hypothesize": true,
+        "forge.decide": true,
+        "forge.feature": true,
+        "forge.experiment": true,
+        "forge.release": true,
+        "forge.check": true
+    },
+    "chat.tools.terminal.autoApprove": {
+        ".forge/scripts/bash/": true,
+        ".forge/scripts/powershell/": true
+    }
+}

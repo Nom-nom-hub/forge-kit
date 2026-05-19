@@ -1,0 +1,45 @@
+forge_type: signal
+id: sig-7622aaae
+version: "1.0.0"
+created_at: 2026-05-19T02:14:43Z
+created_by: teck
+status: raw
+
+signal:
+  category: user_pain
+  source:
+    type: team_observation
+    reference: ""
+    confidence: 1.0
+  observation: |
+    The terminal output shows "Command not found" when running forge init
+    without --integration flag, making it unclear what the correct usage is.
+  evidence:
+    - type: text
+      content: "Running `forge init` without `--integration` produces a 'Command not found' error instead of a helpful usage message."
+      timestamp: 2026-05-19T02:14:43Z
+  affected_dimensions:
+    - users: "developers using forge CLI for the first time"
+      frequency: often
+      severity: medium
+  raw_tags:
+    - cli
+    - ux
+    - error-handling
+    - onboarding
+
+context:
+  business_area: []
+  technical_area:
+    - cli
+    - developer-experience
+  time_sensitivity: medium
+
+links:
+  hypotheses:
+    - hyp-8a3f2c1e
+  decisions:
+    - dec-4b7d91e3
+  features:
+    - fea-d5e1f8a2
+  experiments: []
