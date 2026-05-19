@@ -1,0 +1,37 @@
+# .forge/forge.config.yaml
+version: "1.0.0"
+project:
+  id: ""
+  name: ""
+  team: ""
+
+staleness:
+  signal_days: 90
+  hypothesis_days: 30
+  decision_days: 180
+  feature_days: 45
+
+drift:
+  warning_threshold: 0.2
+  critical_threshold: 0.4
+  emergency_threshold: 0.6
+  auto_escalation: true
+
+governance:
+  consent_timeout_hours: 48
+  decision_types:
+    architectural: [tech-lead, affected-team-leads]
+    product: [product-lead, design-lead]
+    operational: [team-lead]
+    execution: [squad]
+
+ai:
+  auto_cluster_signals: true
+  auto_draft_hypotheses: false
+  confidence_threshold: 0.7
+
+integrations:
+  git:
+    require_forge_links: true
+  telemetry:
+    provider: ""

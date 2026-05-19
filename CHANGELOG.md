@@ -2,6 +2,31 @@
 
 <!-- insert new changelog below this comment -->
 
+## [0.2.0] - 2026-05-19
+
+### Added
+
+- feat: interactive `forge init` with arrow-key-selectable model picker and script-type selector
+- feat: TTY-detect pattern — interactive when human-present, falls back to defaults when piped/CI
+- feat: non-interactive fallback preserves backward compatibility (copilot+bash defaults)
+- feat: 13 AI coding agent integrations with context files installed at init
+- feat: core pack bundling — templates, scripts, and presets baked into the package
+- feat: FORGE constitution with 9 articles (Review-Before-Merge, Interactive-When-Present)
+- feat: autonomous agent instruction pattern — `code-reviewer-deepseek-flash` mandated as workflow gate
+- feat: signal-driven health checks (`/forge.check`) with drift scoring and constitution compliance
+
+### Changed
+
+- `forge init` now prompts interactively when run in a terminal (pass `--integration` and `--script-type` flags to bypass)
+- Version bump: 0.1.0.dev0 → 0.2.0 (stable release)
+- pyproject.toml: added questionary>=2.1.0 dependency
+
+### Fixed
+
+- `_write_config()` no longer ignores the `script_type` parameter (caught by automated code review)
+
+---
+
 ## [0.1.0] - 2026-05-18
 
 ### Changed

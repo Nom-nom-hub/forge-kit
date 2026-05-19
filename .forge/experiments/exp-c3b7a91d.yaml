@@ -1,0 +1,101 @@
+forge_type: experiment
+id: exp-c3b7a91d
+version: "1.0.0"
+created_at: 2026-05-19T02:25:39Z
+
+experiment:
+  type: usability
+  hypothesis: hyp-8a3f2c1e
+  feature: fea-d5e1f8a2
+
+  design:
+    variants:
+      - id: control
+        description: >
+          User is handed a printed card showing `forge init --help` output
+          (listing --integration and --script-type flags) and told:
+          "Initialize a project called 'my-app' using Claude Code with
+          bash scripts." They must manually write the full command:
+          `forge init my-app --integration claude --script-type bash`.
+          Timing starts when the instruction is given and stops when the
+          command runs successfully.
+        traffic_allocation: 0.5
+      - id: treatment
+        description: >
+          User is given the same instruction ("Initialize a project called
+          'my-app' using Claude Code with bash scripts") in an interactive
+          terminal. They run `forge init my-app` and the interactive prompts
+          guide them through model and script-type selection.
+          Timing starts when the instruction is given and stops when the
+          prompts are completed and the project initializes.
+        traffic_allocation: 0.5
+    targeting:
+      segments:
+        - "Developers unfamiliar with forge CLI (no prior experience)"
+      exclusions:
+        - "forge CLI maintainers or contributors (biased by prior knowledge)"
+      sample_size_required: 20
+      power: 0.8
+      significance_level: 0.05
+      sample_note: >
+        Between-subjects design (each participant sees exactly one variant
+        to avoid learning effects). 10 per variant (Nielsen Norman Group
+        standard for usability). The goal is to detect a large practical
+        effect (Cohen's d ≈ 0.9). Results will be analyzed qualitatively
+        (task completion patterns, confusion points) with effect size
+        comparison on timing, not p-value stopping.
+
+    protocol:
+      study_design: between-subjects
+      task_description: |
+        "Initialize a FORGE project called 'my-app' using Claude Code with
+        bash scripts. You can use any terminal commands you'd like."
+      success_criteria: |
+        Project directory exists at my-app/, .forge/ structure is complete,
+        forge.config.yaml contains script_type: bash, and the Claude Code
+        context file is installed.
+      failure_handling: |
+        If a participant cannot complete the task after 5 minutes, the
+        experimenter stops them and asks "What were you looking for?"
+        The attempt is recorded as a failure with the blocker noted.
+      post_task_survey:
+        - "How confusing was this process? (1 = not at all, 5 = extremely)"
+        - "Would you have preferred a different way to set this up? (free text)"
+        - "Did you notice the interactive prompts?" (treatment only)
+
+  metrics:
+    primary: "Time to successful project initialization (seconds)"
+    secondary:
+      - "Task success rate (completed without errors, %)"
+      - "Number of flag/command retries before success"
+      - "Participant-reported confusion score (1-5 Likert, post-test)"
+    guardrails:
+      - name: "Completeness — all required artifacts created"
+        threshold: ".forge/ directory structure identical between control and treatment"
+        alert_on_breach: true
+      - name: "Correctness — config values match user's intent"
+        threshold: "forge.config.yaml has valid integration + script_type matching chosen options"
+        alert_on_breach: true
+
+  duration:
+    minimum: "1 day"
+    maximum: "5 days"
+    stop_conditions:
+      - type: saturation_reached
+        threshold: "No new usability issues or confusion patterns observed in the last 3 participants per variant"
+      - type: sample_reached
+        threshold: "20 participants (10 per variant)"
+      - type: harm_detected
+        threshold: "Any participant unable to complete the task in either variant after 5 minutes"
+      - type: time_limit
+        threshold: "5 days from experiment start"
+
+  results:
+    status: not_started
+    stop_reason: null
+    conclusion: null
+    recommendation: null
+
+release: rel-6f4d2a9e
+owner: teck
+status: designing

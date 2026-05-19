@@ -62,15 +62,17 @@ LAW III: The system must always know what it doesn't know.
 Requires **[uv](https://docs.astral.sh/uv/)**:
 
 ```bash
-uv tool install forge-cli --from git+https://github.com/Nom-nom-hub/forge-kit.git@v0.1.0
+uv tool install forge-cli --from git+https://github.com/Nom-nom-hub/forge-kit.git@v0.2.0
 ```
 
 ### 2. Initialize a project
 
 ```bash
-forge init my-forge-project --integration copilot
+forge init my-forge-project
 cd my-forge-project
 ```
+
+> **Interactive prompts:** Running `forge init` in a terminal will guide you through model and script-type selection with arrow keys. Pass `--integration copilot --script-type bash` to skip prompts (ideal for CI/scripts).
 
 ### 3. Capture your first signal
 

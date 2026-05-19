@@ -1,6 +1,6 @@
 [project]
 name = "forge-cli"
-version = "0.1.0.dev0"
+version = "0.2.0"
 description = "Forge CLI, part of Forge Kit. A toolkit to bootstrap your projects for Feature-Oriented Requirements & Governance Engine (FORGE)."
 requires-python = ">=3.11"
 dependencies = [
@@ -9,6 +9,7 @@ dependencies = [
     "rich",
     "platformdirs",
     "readchar",
+    "questionary>=2.1.0",
     "pyyaml>=6.0.3",
     "packaging>=26.2",
     "pathspec>=0.12.0",
@@ -24,26 +25,6 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/forge_cli"]
-
-[tool.hatch.build.targets.wheel.force-include]
-# Bundle core assets so `forge init` works without network access (air-gapped / enterprise)
-"templates/signal-template.md" = "forge_cli/core_pack/templates/signal-template.md"
-"templates/hypothesis-template.md" = "forge_cli/core_pack/templates/hypothesis-template.md"
-"templates/decision-template.md" = "forge_cli/core_pack/templates/decision-template.md"
-"templates/feature-template.md" = "forge_cli/core_pack/templates/feature-template.md"
-"templates/experiment-template.md" = "forge_cli/core_pack/templates/experiment-template.md"
-"templates/release-manifest-template.md" = "forge_cli/core_pack/templates/release-manifest-template.md"
-"templates/cognitive-contract-template.md" = "forge_cli/core_pack/templates/cognitive-contract-template.md"
-"templates/constitution-template.md" = "forge_cli/core_pack/templates/constitution-template.md"
-"templates/tasks-template.md" = "forge_cli/core_pack/templates/tasks-template.md"
-"templates/checklist-template.md" = "forge_cli/core_pack/templates/checklist-template.md"
-"templates/vscode-settings.json" = "forge_cli/core_pack/templates/vscode-settings.json"
-# Command templates
-"templates/commands" = "forge_cli/core_pack/commands"
-"scripts/bash" = "forge_cli/core_pack/scripts/bash"
-"scripts/powershell" = "forge_cli/core_pack/scripts/powershell"
-# Bundled presets
-"presets/signal-first" = "forge_cli/core_pack/presets/signal-first"
 
 [project.optional-dependencies]
 test = [

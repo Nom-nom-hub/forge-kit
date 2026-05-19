@@ -1,0 +1,45 @@
+forge_type: signal
+id: sig-5857a02e
+version: "1.0.0"
+created_at: 2026-05-19T02:31:30Z
+created_by: teck
+status: raw
+
+signal:
+  category: process_improvement
+  source:
+    type: team_retro
+    reference: rsp-5800e091
+    confidence: 0.9
+  observation: |
+    The code review process caught a bug where _write_config() in init.py
+    accepted a 'script_type' parameter but never used it in the YAML template
+    string — the template always hardcoded 'script_type: bash'. This would have
+    shipped silently since ruff/pytest don't check string template usage.
+  evidence:
+    - type: text
+      content: "code-reviewer-deepseek-flash flagged the unused parameter during review of fea-d5e1f8a2"
+      timestamp: 2026-05-19T02:31:30Z
+  affected_dimensions:
+    - users: "team"
+      frequency: often
+      severity: low
+  raw_tags:
+    - review-process
+    - quality
+    - automation
+
+context:
+  business_area: []
+  technical_area:
+    - code-review
+    - quality-assurance
+  time_sensitivity: low
+
+links:
+  decisions:
+    - dec-4b7d91e3
+  features:
+    - fea-d5e1f8a2
+  experiments: []
+  retrospective: rsp-5800e091

@@ -1,0 +1,145 @@
+forge_type: feature
+id: fea-d5e1f8a2
+version: "1.0.0"
+created_at: 2026-05-19T02:23:43Z
+
+feature:
+  name: "Interactive forge init"
+  tagline: "Arrow-key-selectable model and script-type prompts when running forge init interactively, with full backward-compatible flag support for CI and power users"
+  hypothesis: hyp-8a3f2c1e
+
+  scope:
+    ice_score:
+      impact: 8
+      confidence: 7
+      ease: 9
+
+    includes:
+      - "Interactive model picker — arrow-key select from 13 AI coding agents when --integration is omitted"
+      - "Interactive script-type picker — choose between bash and powershell when --script-type is omitted"
+      - "Non-interactive fallback — CI/piped usage defaults to copilot+bash (identical to previous behavior)"
+      - "Explicit flags bypass prompts entirely — --integration and --script-type work as before"
+      - "Context file creation — integration-specific rules file installed in agent's expected location"
+      - "Script type stored in forge.config.yaml under project.script_type"
+
+    excludes:
+      - "In-browser or web-based setup wizard — CLI-only interactive mode"
+      - "Persistent user preferences across projects — each forge init is independent"
+      - "Telemetry or analytics on prompt selections"
+      - "Multi-select or batch project initialization"
+
+    deferred:
+      - item: "Custom prompt themes or branding"
+        reason: "Not needed for MVP — standard questionary styling is sufficient"
+      - item: "Search/filter within integration picker"
+        reason: "13 options is manageable without search; re-evaluate if we add 20+"
+      - item: "Help text preview in the picker"
+        reason: "questionary doesn't support multi-line descriptions inline; the --help flag still shows full descriptions"
+
+  journeys:
+    - persona: "New developer trying forge for the first time"
+      journey: |-
+        GIVEN I am in my terminal and have just run `forge init my-project`
+        WHEN the CLI detects I'm in an interactive terminal without passing --integration
+        THEN I see "🔥 Which AI coding agent are you using?" with arrow-key-selectable options
+        AND after selecting, I see "🔥 Which scripting environment?" with bash/powershell options
+        AND the project is initialized with my chosen settings
+      acceptance_criteria:
+        - id: ac-001
+          description: "Running `forge init my-project` in a TTY shows the model picker as the first prompt"
+          type: functional
+          automated: true
+        - id: ac-002
+          description: "Selecting an integration followed by a script type completes initialization and installs the correct context file"
+          type: functional
+          automated: true
+        - id: ac-003
+          description: "forge.config.yaml contains script_type matching the user's selection (not always 'bash')"
+          type: functional
+          automated: true
+
+    - persona: "Power user with known preferences"
+      journey: |-
+        GIVEN I know my setup (Copilot + bash)
+        WHEN I run `forge init my-project --integration copilot --script-type bash`
+        THEN the project initializes immediately without any interactive prompts
+        AND the output shows the integration and script type I chose
+      acceptance_criteria:
+        - id: ac-004
+          description: "Passing --integration and --script-type flags skips all interactive prompts"
+          type: functional
+          automated: true
+        - id: ac-005
+          description: "Passing --integration only keeps the default --script-type=bash without prompting"
+          type: functional
+          automated: true
+
+    - persona: "CI/CD pipeline"
+      journey: |-
+        GIVEN a CI pipeline that runs `forge init my-project` (no TTY)
+        WHEN the command executes in a non-TTY environment (piped, CI runner)
+        THEN the project initializes with default values (copilot, bash) without any prompts
+        AND the exit code is 0
+      acceptance_criteria:
+        - id: ac-006
+          description: "Running forge init in a non-TTY environment (e.g., piped stdin) defaults to copilot+bash without interactive prompts"
+          type: functional
+          automated: true
+        - id: ac-007
+          description: "Exit code is 0 on successful init, even in non-TTY mode"
+          type: functional
+          automated: true
+
+  technical:
+    components_affected:
+      - "src/forge_cli/cli.py — CLI command definition, interactive prompt logic"
+      - "src/forge_cli/prompts.py (new) — questionary-based selection menus"
+      - "src/forge_cli/commands/init.py — run_init() accepts script_type parameter"
+      - "pyproject.toml — questionary dependency added"
+    apis_changed:
+      - "forge init — --integration default changed from 'copilot' to None (prompts when TTY)"
+      - "forge init — --script-type (-s) new option for bash/powershell selection"
+    data_schema_changes:
+      - "forge.config.yaml — added project.script_type field"
+    performance_budget:
+      metric: "Startup latency"
+      current: "~50ms (import overhead)"
+      target: "<300ms including questionary import"
+    security_review_required: false
+    accessibility_requirements:
+      - "Keyboard navigable — questionary supports arrow keys + Enter by default"
+      - "No color-only indicators — options are readable without color"
+
+  feature_flag:
+    key: "fea-d5e1f8a2"
+    rollout_strategy: boolean
+
+  observability:
+    events_to_track:
+      - "forge_init_interactive - forge init was run with interactive prompts"
+      - "forge_init_flags - forge init was run with explicit --integration/--script-type flags"
+      - "forge_init_noninteractive - forge init was run in non-TTY mode (CI/pipe)"
+    dashboards:
+      - "CLI Usage — ratio of interactive vs. flag-based vs. CI inits"
+    alerts: []
+
+  dependencies:
+    upstream_features: []
+    downstream_features: []
+    external_dependencies:
+      - "questionary>=2.1.0 — interactive terminal prompts"
+  experiments:
+    - exp-c3b7a91d
+  release: rel-6f4d2a9e
+
+signals:
+  - sig-7622aaae
+  - sig-5857a02e
+  - sig-47d0df57
+  - sig-f92c9584
+decisions:
+  - dec-4b7d91e3
+hypothesis: hyp-8a3f2c1e
+
+owner: teck
+status: active

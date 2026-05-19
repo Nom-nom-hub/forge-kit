@@ -1,0 +1,46 @@
+forge_type: signal
+id: sig-47d0df57
+version: "1.0.0"
+created_at: 2026-05-19T02:31:30Z
+created_by: teck
+status: raw
+
+signal:
+  category: team_observation
+  source:
+    type: team_retro
+    reference: rsp-5800e091
+    confidence: 0.8
+  observation: |
+    The questionary library (added as a dependency for interactive prompts)
+    integrated flawlessly — no API surprises, no terminal compatibility issues,
+    no friction with the existing typer CLI framework. The selection criteria
+    (well-maintained, 4k+ GitHub stars, simple select API, no heavyweight
+    transitive dependencies) proved effective for predicting integration quality.
+  evidence:
+    - type: text
+      content: "questionary>=2.1.0 added to pyproject.toml — worked without any compatibility or API issues"
+      timestamp: 2026-05-19T02:31:30Z
+  affected_dimensions:
+    - users: "team"
+      frequency: always
+      severity: low
+  raw_tags:
+    - dependencies
+    - library-selection
+    - integration
+
+context:
+  business_area: []
+  technical_area:
+    - dependency-management
+    - library-selection
+  time_sensitivity: low
+
+links:
+  decisions:
+    - dec-4b7d91e3
+  features:
+    - fea-d5e1f8a2
+  experiments: []
+  retrospective: rsp-5800e091

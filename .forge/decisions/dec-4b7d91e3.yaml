@@ -1,0 +1,87 @@
+forge_type: decision
+id: dec-4b7d91e3
+version: "1.0.0"
+created_at: 2026-05-19T02:22:34Z
+
+decision:
+  title: "Adopt interactive prompts for forge init"
+  statement: |
+    We have decided to adopt interactive selection prompts (model and script-type)
+    for forge init in the context of hyp-8a3f2c1e, accepting the three falsification
+    scenarios as acceptable tradeoffs because the improvement in first-time user
+    experience outweighs the minor friction for power users who can bypass prompts
+    with explicit flags.
+
+  type: operational
+  rationale: |
+    The interactive approach eliminates the "Command not found" confusion for new
+    users without breaking backward compatibility. Power users can bypass both
+    menus by passing --integration and --script-type flags directly. The three
+    falsification scenarios from hyp-8a3f2c1e were reviewed:
+    
+    1. Users missing prompts entirely — mitigated by the non-interactive fallback
+       defaulting to copilot/bash, which was the previous behavior
+    2. CI/pipe silent defaults — mitigated because CI was already using the default
+       "copilot" value; this preserves identical behavior
+    3. Power user friction — mitigated by explicit flags skipping menus entirely;
+       for users who know their setup, `forge init -i claude -s bash .` is no slower
+
+  alternatives_considered:
+    - option: "Enhanced --help output only — improve documentation without adding menus"
+      why_rejected: "Does not address the core issue: users run forge init without reading help first. Documentation improvements help users who seek help, not users who just type the command."
+      could_revisit_if: "Usage analytics show users consistently read help text before running commands"
+    - option: "Default to interactive only when no flags and no project name provided"
+      why_rejected: "The current implementation already does this correctly — prompts only show when flags are omitted AND terminal is a TTY"
+      could_revisit_if: "N/A — this is already how it works"
+    - option: "InquirerPy instead of questionary for interactive prompts"
+      why_rejected: "questionary is more widely adopted (4k+ stars), better documented, and has a cleaner API for simple select menus"
+      could_revisit_if: "questionary shows compatibility issues on a target platform"
+
+  reversibility:
+    type: reversible
+    reversal_cost: trivial
+    reversal_condition: "Remove src/forge_cli/prompts.py and revert cli.py defaults — the prompt system is isolated and easy to extract"
+
+  constraints:
+    - type: technical
+      description: "questionary must be available as a dependency — added to pyproject.toml as required"
+    - type: time
+      description: "No time constraint — implementation is complete and ready"
+    - type: resource
+      description: "Team expertise in Python CLI tooling — implemented autonomously via AI agent"
+
+  assumptions:
+    - assumption: "The 'Command not found' error was due to missing --integration flag or unclear usage"
+      invalidated_by: "Investigation reveals the actual error was something else entirely (e.g., missing project name)"
+      monitoring: "Review the original reproduction steps with the reporter"
+    - assumption: "Users prefer interactive menus over reading --help output"
+      invalidated_by: "Usage data shows users consistently run forge init --help first before attempting to run it"
+      monitoring: "No telemetry yet — observe GitHub issues and community feedback"
+    - assumption: "questionary works reliably across all target terminal emulators and CI environments"
+      invalidated_by: "A user reports broken prompts in their terminal (Windows Terminal, tmux, etc.)"
+      monitoring: "Monitor GitHub issues for terminal compatibility reports"
+
+  consent_record:
+    process: delegated
+    participants: ["teck"]
+    objections: []
+    consented_at: "2026-05-19T02:22:34Z"
+
+  review_trigger:
+    date: "2026-08-19"
+    metric_threshold: "3+ GitHub issues or user complaints about the interactive prompts"
+    event: "Any report of broken behavior in CI or non-TTY environments"
+
+signals:
+  - sig-7622aaae
+  - sig-5857a02e
+  - sig-47d0df57
+  - sig-f92c9584
+hypotheses:
+  - hyp-8a3f2c1e
+features:
+  - fea-d5e1f8a2
+
+owner: teck
+status: proposed
+superseded_by: ""

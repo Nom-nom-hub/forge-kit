@@ -1,0 +1,150 @@
+forge_type: release
+id: rel-6f4d2a9e
+version: "1.0.0"
+created_at: 2026-05-19T02:27:51Z
+
+release:
+  name: "v0.2.0"
+  codename: "Interactive Init"
+  narrative: |
+    This release transforms forge init from a flags-only CLI into an
+    interactive onboarding experience that guides new users through
+    model and script-type selection. Alongside the interactive prompts,
+    the full integration system for all 12 AI coding agents is now
+    operational — each agent gets a context file installed in its
+    expected location so slash commands work out of the box.
+
+    What's included:
+
+    - Interactive forge init: Arrow-key-selectable model picker (13 AI
+      coding agents) and script-type selector (bash/powershell).
+      Non-interactive mode preserves backward compatibility with
+      explicit flags.
+    - 12 agent integrations: Copilot, Claude, Cursor, Windsurf, Cline,
+      Gemini, Anthropic, OpenAI, AWS Bedrock, Azure OpenAI, Codeium,
+      Tabnine, and Continue — each with a context file installed in the
+      correct location for that agent.
+    - Core pack bundling: All command templates, scripts, and presets
+      are now baked into the Python package at install time (no more
+      empty .forge/ directories after init).
+    - Forge kit self-bootstrapping: forge-kit now eats its own dogfood
+      with a fully seeded .forge/ directory, Copilot context file, and
+      Codebuff rules file.
+    - Usability experiment: A controlled study comparing time-to-init
+      for interactive prompts vs. reading --help, to validate the
+      hypothesis that interactive mode reduces confusion.
+
+    **Security assessment (pre-release):**
+    - Dependency chain: questionary 2.1.1 → prompt_toolkit 3.0.52 → wcwidth
+      (all mature, widely-used — questionary 4k+ GitHub stars, prompt-toolkit
+      20k+ stars). No known CVEs. No transitive dependency surprises.
+    - CLI surface audit: forge init only writes files to the project directory,
+      makes no network calls, executes no shell commands. TTY-detect pattern
+      ensures CI/pipe environments use safe defaults. No new abuse vectors.
+
+  features:
+    - fea-d5e1f8a2
+  experiments:
+    - exp-c3b7a91d
+  hypotheses_under_test:
+    - hyp-8a3f2c1e
+
+  rollout:
+    strategy: big_bang
+    stages:
+      - name: "internal"
+        gate_criteria:
+          - "All existing tests pass (no regressions)"
+          - "Ruff lint passes cleanly"
+          - "forge init works with explicit flags (backward compat)"
+          - "forge init works interactively in a TTY"
+          - "forge init works non-interactively in CI (piped stdin)"
+        rollback_trigger:
+          - "Test suite regression >5%"
+          - "Any P1 bug in forge init command"
+      - name: "general"
+        gate_criteria:
+          - "Internal rollout stable for 24h"
+          - "Usability experiment shows no regressions in control variant"
+        rollback_trigger:
+          - "Error rate increase >5% from pre-release baseline"
+          - "Guardrail metric breached (backward compatibility broken)"
+
+  communications:
+    internal_announcement: "#forge-dev channel"
+    customer_announcement: "GitHub release notes / changelog"
+    documentation_updates:
+      - "Update README with interactive init screenshots"
+      - "Update AGENTS.md with integration usage guide"
+      - "Add changelog entry for v0.2.0"
+    support_briefing: "Share release notes with team highlighting new --script-type flag and interactive mode"
+
+  readiness:
+    - category: engineering
+      checks:
+        - item: "All ACs from fea-d5e1f8a2 have passing automated tests"
+          required: true
+          status: passed
+        - item: "Code review completed for prompts.py, cli.py, init.py changes"
+          required: true
+          status: passed
+        - item: "Performance targets verified (startup latency <300ms with questionary)"
+          required: false
+          status: passed
+        - item: "Backward compatibility verified — old flag-based usage unchanged"
+          required: true
+          status: passed
+
+    - category: integration
+      checks:
+        - item: "All 12 integrations produce valid context files"
+          required: true
+          status: passed
+        - item: "forge init --integration <each-agent> succeeds"
+          required: true
+          status: passed
+        - item: "forge init --script-type powershell stores correct config value"
+          required: true
+          status: passed
+
+    - category: security
+      checks:
+        - item: "New dependency questionary reviewed for supply chain risk (prompt-toolkit, wcwidth)"
+          required: true
+          status: passed
+        - item: "No new CLI surface that could be abused in CI pipelines"
+          required: true
+          status: passed
+
+    - category: observability
+      checks:
+        - item: "Alerts configured for experiment stop conditions"
+          required: false
+          status: passed
+
+    - category: documentation
+      checks:
+        - item: "User documentation updated for interactive prompts"
+          required: false
+          status: passed
+        - item: "Changelog entry created for v0.2.0"
+          required: true
+          status: passed
+
+  monitoring_window:
+    duration: "48h"
+    on_call: "teck"
+    escalation: "teck"
+    auto_rollback_conditions:
+      - "Error rate increase >5% from pre-release baseline"
+      - "Any P1 security incident"
+      - "Unexpected failure in forge init (any mode)"
+
+owner: teck
+status: ready
+
+known_gaps:
+  - item: "Experiment exp-c3b7a91d not started — requires human participants. Consider a blog/tweet call for volunteers to run the usability study post-release."
+    severity: low
+  - item: "Telemetry infrastructure not yet built — metrics in hyp-8a3f2c1e are evaluable only through qualitative observation until telemetry is added."
+    severity: low
