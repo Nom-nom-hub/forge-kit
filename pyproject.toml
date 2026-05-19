@@ -47,7 +47,7 @@ packages = ["src/forge_cli"]
 
 [project.optional-dependencies]
 test = [
-    "pytest>=7.0",
+    "pytest>=9.0.3",
     "pytest-cov>=4.0",
 ]
 lint = [
