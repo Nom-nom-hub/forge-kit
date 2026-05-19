@@ -40,6 +40,24 @@
 - [ ] Related FORGE artifacts are linked above
 - [ ] PR title follows conventional commits format (e.g. `feat:`, `fix:`, `docs:`)
 
+## Testing
+
+<!-- Describe how you tested your changes: -->
+
+- [ ] Tested locally (`uv run ruff check src/`)
+- [ ] Ran existing tests (`uv run pytest`)
+- [ ] Tested with a sample project (if applicable)
+- [ ] Manual testing steps performed (describe below)
+
+## AI Disclosure
+
+<!-- Per our CONTRIBUTING.md guidelines, please disclose AI assistance: -->
+
+- [ ] I **did not** use AI assistance for this contribution
+- [ ] I **did** use AI assistance (describe how below)
+
+<!-- If AI was used, briefly describe how (e.g., "Used Claude Code to generate initial implementation, then manually reviewed and adjusted"). -->
+
 ## Screenshots / Logs
 
 <!-- If applicable, add screenshots or terminal output to help explain your changes. -->
