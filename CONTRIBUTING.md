@@ -35,7 +35,7 @@ Please take a moment to read through this guide before contributing. It covers e
 
 ## Code of Conduct
 
-This project follows the [FORGE methodology's governance principles](https://github.com/Nom-nom-hub/forge-kit). Be respectful, assume good intent, and resolve disagreements through reasoned consent — not veto.
+This project follows the [FORGE methodology's governance principles](forge-methodology.md). Please read and adhere to our [Code of Conduct](CODE_OF_CONDUCT.md). Be respectful, assume good intent, and resolve disagreements through reasoned consent — not veto.
 
 ---
 
@@ -229,13 +229,13 @@ Forge Kit supports two community contribution systems:
 
 ### Extensions
 
-Extensions add new capabilities to Forge Kit beyond the core commands. If you've built an extension that others might find useful, submit it via the [Extension Submission template](https://github.com/Nom-nom-hub/forge-kit/issues/new?template=extension_submission.yml).
+Extensions add new capabilities to Forge Kit beyond the core commands. If you've built an extension that others might find useful, submit it via the [Extension Submission template](.github/ISSUE_TEMPLATE/extension_submission.yml).
 
 For development guidance, see the [Extension Publishing Guide](extensions/EXTENSION-PUBLISHING-GUIDE.md).
 
 ### Presets
 
-Presets customize how Forge Kit behaves — overriding templates, commands, and terminology without changing any tooling. Submit presets via the [Preset Submission template](https://github.com/Nom-nom-hub/forge-kit/issues/new?template=preset_submission.yml).
+Presets customize how Forge Kit behaves — overriding templates, commands, and terminology without changing any tooling. Submit presets via the [Preset Submission template](.github/ISSUE_TEMPLATE/preset_submission.yml).
 
 For development guidance, see the [Preset Publishing Guide](presets/PUBLISHING.md).
 
@@ -249,9 +249,9 @@ Before opening a new issue:
 
 1. **Search existing issues** — Your problem may already be reported or addressed.
 2. **Use the appropriate template**:
-   - [Bug Report](https://github.com/Nom-nom-hub/forge-kit/issues/new?template=bug_report.yml) — Something isn't working
-   - [Feature Request](https://github.com/Nom-nom-hub/forge-kit/issues/new?template=feature_request.yml) — New capability idea
-   - [Agent Request](https://github.com/Nom-nom-hub/forge-kit/issues/new?template=agent_request.yml) — Support for a new AI coding agent
+   - [Bug Report](.github/ISSUE_TEMPLATE/bug_report.yml) — Something isn't working
+   - [Feature Request](.github/ISSUE_TEMPLATE/feature_request.yml) — New capability idea
+   - [Agent Request](.github/ISSUE_TEMPLATE/agent_request.yml) — Support for a new AI coding agent
 3. **Include reproduction steps** for bugs — "it doesn't work" is not actionable. Show us *how* to reproduce the issue.
 4. **Share relevant context** — Python version, OS, AI agent, error output, and what you expected to happen.
 
