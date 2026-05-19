@@ -1,0 +1,85 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "Extracted tag: $TAG"
+
+      - name: Check if release already exists
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "${{ steps.version.outputs.tag }}" --json url >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Release ${{ steps.version.outputs.tag }} already exists — skipping"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Release ${{ steps.version.outputs.tag }} does not exist — creating"
+          fi
+
+      - name: Generate release notes
+        if: steps.check.outputs.exists == 'false'
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          PREVIOUS_TAG=$(git tag -l 'v*' --sort=-version:refname | head -n 2 | tail -n 1)
+
+          cat > release_notes.md << 'EOF'
+          ## Installation
+
+          Install Forge CLI:
+
+          ```bash
+          uv tool install forge-cli --from git+https://github.com/Nom-nom-hub/forge-kit.git@${{ steps.version.outputs.tag }}
+          ```
+
+          Initialize a project:
+
+          ```bash
+          forge init my-project --integration copilot
+          ```
+
+          ## What's Changed
+
+          EOF
+
+          if [[ -n "$PREVIOUS_TAG" ]]; then
+            git log --oneline "$PREVIOUS_TAG"..HEAD --no-merges --pretty=format:"- %s" >> release_notes.md
+          else
+            echo "- Initial release" >> release_notes.md
+          fi
+
+          echo "" >> release_notes.md
+          echo "**Full Changelog**: https://github.com/Nom-nom-hub/forge-kit/compare/$PREVIOUS_TAG...$TAG" >> release_notes.md
+
+      - name: Create GitHub Release
+        if: steps.check.outputs.exists == 'false'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          VERSION="${TAG#v}"
+
+          gh release create "$TAG" \
+            --title "Forge Kit v$VERSION" \
+            --notes-file release_notes.md \
+            --verify-tag
