@@ -1,11 +1,21 @@
-# These owners will be the default owners for everything in the repo
-* @teck
+# Default owners for the entire repository
+# Any pull request must be approved by these users
+* @Nom-nom-hub
 
-# Source code
-/src/ @teck
+# Core methodology docs — owner review required
+forge-driven.md @Nom-nom-hub
+AGENTS.md @Nom-nom-hub
 
-# Templates
-/templates/ @teck
+# Templates — owner review required
+/templates/ @Nom-nom-hub
 
-# Documentation
-/docs/ @teck
+# Extensions and presets — owner review required
+/extensions/ @Nom-nom-hub
+/presets/ @Nom-nom-hub
+
+# CLI source code — owner review required
+/src/ @Nom-nom-hub
+
+# Configuration files — owner review required
+pyproject.toml @Nom-nom-hub
+CITATION.cff @Nom-nom-hub
