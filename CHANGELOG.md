@@ -2,6 +2,15 @@
 
 <!-- insert new changelog below this comment -->
 
+## [0.1.0] - 2026-05-19
+
+### Changed
+
+- Update pyyaml requirement from >=6.0 to >=6.0.3 (#6)
+- Update json5 requirement from >=0.13.0 to >=0.14.0 (#8)
+- Update packaging requirement from >=23.0 to >=26.2 (#4)
+- ci: add issue templates and enhance PR template with AI disclosure (#12)
+
 ## [0.1.0] - 2026-05-18
 
 ### Changed
