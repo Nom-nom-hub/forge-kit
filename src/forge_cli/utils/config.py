@@ -1,14 +1,13 @@
 """Configuration utilities for Forge CLI."""
 
-from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 import yaml
 
 from .helpers import find_forge_root
 
 
-def load_config() -> Optional[Dict[str, Any]]:
+def load_config() -> dict[str, Any] | None:
     """Load the FORGE configuration file."""
     root = find_forge_root()
     if not root:
@@ -18,11 +17,11 @@ def load_config() -> Optional[Dict[str, Any]]:
     if not config_path.exists():
         return None
 
-    with open(config_path, "r") as f:
+    with open(config_path) as f:
         return yaml.safe_load(f)
 
 
-def get_staleness_settings() -> Dict[str, int]:
+def get_staleness_settings() -> dict[str, int]:
     """Get staleness thresholds from config."""
     config = load_config()
     if config and "staleness" in config:
@@ -35,7 +34,7 @@ def get_staleness_settings() -> Dict[str, int]:
     }
 
 
-def get_drift_thresholds() -> Dict[str, float]:
+def get_drift_thresholds() -> dict[str, float]:
     """Get drift thresholds from config."""
     config = load_config()
     if config and "drift" in config:

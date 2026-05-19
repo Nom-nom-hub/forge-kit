@@ -4,11 +4,9 @@ Each AI coding agent is registered as an integration that defines
 how command templates are installed and context files are managed.
 """
 
-from typing import Dict, List, Optional
-
 from .base import IntegrationBase
 
-INTEGRATION_REGISTRY: Dict[str, IntegrationBase] = {}
+INTEGRATION_REGISTRY: dict[str, IntegrationBase] = {}
 _registry_initialized = False
 
 
@@ -33,13 +31,13 @@ def _register_builtins() -> None:
     pass
 
 
-def get_integration(key: str) -> Optional[IntegrationBase]:
+def get_integration(key: str) -> IntegrationBase | None:
     """Get an integration by key."""
     _register_builtins()
     return INTEGRATION_REGISTRY.get(key)
 
 
-def list_integrations() -> List[str]:
+def list_integrations() -> list[str]:
     """List all registered integration keys."""
     _register_builtins()
     return list(INTEGRATION_REGISTRY.keys())

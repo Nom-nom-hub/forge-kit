@@ -50,6 +50,9 @@ test = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
 ]
+lint = [
+    "ruff>=0.11.0",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -60,6 +63,23 @@ addopts = [
     "-v",
     "--strict-markers",
     "--tb=short",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "N",   # pep8-naming
+    "W",   # pycodestyle warnings
+]
+ignore = [
+    "E501", # line length (handled by ruff formatter)
 ]
 
 [tool.coverage.run]

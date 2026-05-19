@@ -1,9 +1,6 @@
 """Initialize a new FORGE project."""
 
-import os
-import shutil
 from pathlib import Path
-from typing import Optional
 
 import typer
 from rich.console import Console
@@ -13,7 +10,7 @@ console = Console()
 
 
 def run_init(
-    project_name: Optional[str] = None,
+    project_name: str | None = None,
     integration: str = "copilot",
     force: bool = False,
 ) -> None:
@@ -77,10 +74,10 @@ def run_init(
     console.print("[bold green]✅ FORGE project initialized![/bold green]")
     console.print(f"  📁 {target_dir}")
     console.print(f"  🔧 Integration: {integration}")
-    console.print(f"\nNext steps:")
+    console.print("\nNext steps:")
     console.print(f"  1. cd {target_dir.name}")
-    console.print(f"  2. /forge.signal — Capture your first signal")
-    console.print(f"  3. /forge.hypothesize — Form a hypothesis")
+    console.print("  2. /forge.signal — Capture your first signal")
+    console.print("  3. /forge.hypothesize — Form a hypothesis")
 
 
 def _write_config(path: Path) -> None:

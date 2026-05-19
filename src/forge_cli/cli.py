@@ -1,6 +1,5 @@
 """Forge CLI main application."""
 
-from typing import Optional
 
 import typer
 
@@ -13,7 +12,7 @@ app = typer.Typer(
 
 @app.command()
 def init(
-    project_name: Optional[str] = typer.Argument(None, help="Project name or '.' for current directory"),
+    project_name: str | None = typer.Argument(None, help="Project name or '.' for current directory"),
     integration: str = typer.Option("copilot", "--integration", "-i", help="AI coding agent integration"),
     force: bool = typer.Option(False, "--force", "-f", help="Overwrite existing files"),
 ):

@@ -2,7 +2,6 @@
 
 import json
 from pathlib import Path
-from typing import Dict, List, Optional
 
 
 class IntegrationManifest:
@@ -12,7 +11,7 @@ class IntegrationManifest:
         self.path = Path(target_dir) / ".forge" / f"{integration_key}.manifest.json"
         self.integration_key = integration_key
 
-    def add_files(self, files: List[str]) -> None:
+    def add_files(self, files: list[str]) -> None:
         """Record installed files."""
         manifest = self._read()
         manifest.setdefault("files", [])
@@ -21,7 +20,7 @@ class IntegrationManifest:
                 manifest["files"].append(f)
         self._write(manifest)
 
-    def remove_files(self) -> List[str]:
+    def remove_files(self) -> list[str]:
         """Get list of installed files and clear manifest."""
         manifest = self._read()
         files = manifest.get("files", [])

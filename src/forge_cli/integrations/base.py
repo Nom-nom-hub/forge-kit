@@ -1,7 +1,7 @@
 """Base classes for AI coding agent integrations."""
 
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from abc import ABC
+from typing import Any
 
 
 class IntegrationOption:
@@ -24,11 +24,11 @@ class IntegrationBase(ABC):
     """Base class for all integrations."""
 
     key: str = ""
-    config: Dict[str, Any] = {}
-    registrar_config: Dict[str, Any] = {}
-    context_file: Optional[str] = None
+    config: dict[str, Any] = {}
+    registrar_config: dict[str, Any] = {}
+    context_file: str | None = None
 
-    def setup(self, target_dir: str, options: Optional[Dict[str, Any]] = None) -> None:
+    def setup(self, target_dir: str, options: dict[str, Any] | None = None) -> None:
         """Install integration files into the target directory."""
         raise NotImplementedError
 
@@ -37,7 +37,7 @@ class IntegrationBase(ABC):
         raise NotImplementedError
 
     @classmethod
-    def options(cls) -> List[IntegrationOption]:
+    def options(cls) -> list[IntegrationOption]:
         """Return integration-specific CLI options."""
         return []
 
@@ -45,7 +45,7 @@ class IntegrationBase(ABC):
 class MarkdownIntegration(IntegrationBase):
     """For agents that use Markdown command files."""
 
-    def setup(self, target_dir: str, options: Optional[Dict[str, Any]] = None) -> None:
+    def setup(self, target_dir: str, options: dict[str, Any] | None = None) -> None:
         pass  # Standard markdown setup
 
     def teardown(self, target_dir: str) -> None:
@@ -55,7 +55,7 @@ class MarkdownIntegration(IntegrationBase):
 class TomlIntegration(IntegrationBase):
     """For agents that use TOML command files."""
 
-    def setup(self, target_dir: str, options: Optional[Dict[str, Any]] = None) -> None:
+    def setup(self, target_dir: str, options: dict[str, Any] | None = None) -> None:
         pass
 
     def teardown(self, target_dir: str) -> None:
@@ -65,7 +65,7 @@ class TomlIntegration(IntegrationBase):
 class SkillsIntegration(IntegrationBase):
     """For agents that use skill directories."""
 
-    def setup(self, target_dir: str, options: Optional[Dict[str, Any]] = None) -> None:
+    def setup(self, target_dir: str, options: dict[str, Any] | None = None) -> None:
         pass
 
     def teardown(self, target_dir: str) -> None:
@@ -75,7 +75,7 @@ class SkillsIntegration(IntegrationBase):
 class YamlIntegration(IntegrationBase):
     """For agents that use YAML recipe files."""
 
-    def setup(self, target_dir: str, options: Optional[Dict[str, Any]] = None) -> None:
+    def setup(self, target_dir: str, options: dict[str, Any] | None = None) -> None:
         pass
 
     def teardown(self, target_dir: str) -> None:

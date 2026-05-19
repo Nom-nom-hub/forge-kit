@@ -2,9 +2,8 @@
 
 import re
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Optional
 
 
 def generate_id(prefix: str = "sig") -> str:
@@ -15,10 +14,10 @@ def generate_id(prefix: str = "sig") -> str:
 
 def timestamp() -> str:
     """Get current ISO8601 timestamp."""
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
-def find_forge_root() -> Optional[Path]:
+def find_forge_root() -> Path | None:
     """Walk up from CWD to find the .forge directory."""
     cwd = Path.cwd()
     for parent in [cwd] + list(cwd.parents):
