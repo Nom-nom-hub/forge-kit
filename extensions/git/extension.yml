@@ -1,0 +1,210 @@
+schema_version: "1.0"
+
+extension:
+  id: git
+  name: "Git Branching Workflow (FORGE)"
+  version: "1.0.0"
+  description: "Feature branch creation, signal-driven numbering, validation, remote detection, and auto-commit for FORGE Kit"
+  author: forge-kit-core
+  repository: https://github.com/forge-kit/forge-kit
+  license: MIT
+
+requires:
+  forge_version: ">=0.1.0"
+  tools:
+    - name: git
+      required: false
+
+provides:
+  commands:
+    - name: forge.git.branch
+      file: commands/forge.git.branch.md
+      description: "Create a signal-driven feature branch with sequential or timestamp numbering"
+    - name: forge.git.validate
+      file: commands/forge.git.validate.md
+      description: "Validate current branch follows FORGE branch naming conventions"
+    - name: forge.git.remote
+      file: commands/forge.git.remote.md
+      description: "Detect Git remote URL for repository integration"
+    - name: forge.git.initialize
+      file: commands/forge.git.initialize.md
+      description: "Initialize a Git repository with an initial commit"
+    - name: forge.git.commit
+      file: commands/forge.git.commit.md
+      description: "Auto-commit changes after a FORGE command completes"
+
+  config:
+    - name: "git-config.yml"
+      template: "config-template.yml"
+      description: "Git branching configuration"
+      required: false
+
+hooks:
+  before_constitution:
+    command: forge.git.initialize
+    optional: false
+    description: "Initialize Git repository before constitution setup"
+  before_signal:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before signal capture?"
+    description: "Auto-commit before signal capture"
+  before_hypothesize:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before hypothesis formulation?"
+    description: "Auto-commit before hypothesis"
+  before_decide:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before decision?"
+    description: "Auto-commit before decision"
+  before_feature:
+    command: forge.git.branch
+    optional: false
+    description: "Create feature branch before specification"
+  before_experiment:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before experiment design?"
+    description: "Auto-commit before experiment"
+  before_release:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before release?"
+    description: "Auto-commit before release"
+  before_retrospect:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before retrospective?"
+    description: "Auto-commit before retrospective"
+  after_constitution:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit constitution changes?"
+    description: "Auto-commit after constitution update"
+  after_signal:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit signal changes?"
+    description: "Auto-commit after signal capture"
+  after_hypothesize:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit hypothesis changes?"
+    description: "Auto-commit after hypothesis"
+  after_decide:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit decision changes?"
+    description: "Auto-commit after decision"
+  after_feature:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit feature specification changes?"
+    description: "Auto-commit after feature"
+  after_experiment:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit experiment design changes?"
+    description: "Auto-commit after experiment"
+  after_release:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit release manifest changes?"
+    description: "Auto-commit after release"
+  after_retrospect:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit retrospective changes?"
+    description: "Auto-commit after retrospective"
+  before_check:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before quality check?"
+    description: "Auto-commit before quality check"
+  after_check:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit quality check results?"
+    description: "Auto-commit after quality check"
+  before_graph:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before graph update?"
+    description: "Auto-commit before graph update"
+  after_graph:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit graph changes?"
+    description: "Auto-commit after graph update"
+  before_analyze:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before analysis?"
+    description: "Auto-commit before analysis"
+  after_analyze:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit analysis results?"
+    description: "Auto-commit after analysis"
+  before_clarify:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before clarification?"
+    description: "Auto-commit before clarification"
+  after_clarify:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit clarification changes?"
+    description: "Auto-commit after clarification"
+  before_checklist:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before checklist generation?"
+    description: "Auto-commit before checklist"
+  after_checklist:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit checklist changes?"
+    description: "Auto-commit after checklist"
+  before_ai_analyze:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before AI analysis?"
+    description: "Auto-commit before AI analysis"
+  after_ai_analyze:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit AI analysis results?"
+    description: "Auto-commit after AI analysis"
+  before_ai_critique:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before AI critique?"
+    description: "Auto-commit before AI critique"
+  after_ai_critique:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit AI critique results?"
+    description: "Auto-commit after AI critique"
+  before_ai_blind_spots:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit outstanding changes before blind spot detection?"
+    description: "Auto-commit before blind spot detection"
+  after_ai_blind_spots:
+    command: forge.git.commit
+    optional: true
+    prompt: "Commit blind spot detection results?"
+    description: "Auto-commit after blind spot detection"
+
+tags:
+  - "git"
+  - "branching"
+  - "workflow"
+
+config:
+  defaults:
+    branch_numbering: sequential
+    init_commit_message: "[Forge Kit] Initial commit"

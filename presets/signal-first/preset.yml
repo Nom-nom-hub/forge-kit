@@ -1,0 +1,51 @@
+schema_version: "1.0"
+
+preset:
+  id: "signal-first"
+  name: "Signal-First Workflow"
+  version: "1.0.0"
+  description: "Prioritize signal capture with lightweight templates for rapid FORGE iteration"
+  author: "forge-kit"
+  repository: "https://github.com/forge-kit/forge-kit"
+  license: "MIT"
+
+requires:
+  forge_version: ">=0.1.0"
+
+provides:
+  templates:
+    - type: "template"
+      name: "signal-template"
+      file: "templates/signal-template.md"
+      description: "Lightweight signal template with minimal ceremony"
+      replaces: "signal-template"
+
+    - type: "template"
+      name: "hypothesis-template"
+      file: "templates/hypothesis-template.md"
+      description: "Signal-first hypothesis template with direct signal linking"
+      replaces: "hypothesis-template"
+
+    - type: "command"
+      name: "forge.signal"
+      file: "commands/forge.signal.md"
+      description: "Signal-first override — capture signal with lightweight template"
+      replaces: "forge.signal"
+
+    - type: "command"
+      name: "forge.hypothesize"
+      file: "commands/forge.hypothesize.md"
+      description: "Signal-first hypothesize — direct signal-to-hypothesis pipeline"
+      replaces: "forge.hypothesize"
+
+    - type: "command"
+      name: "forge.decide"
+      file: "commands/forge.decide.md"
+      description: "Signal-first decide — fast consent with signal-driven alternatives"
+      replaces: "forge.decide"
+
+tags:
+  - "signal-first"
+  - "lightweight"
+  - "workflow"
+  - "core"

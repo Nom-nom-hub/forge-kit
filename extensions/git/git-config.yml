@@ -1,0 +1,110 @@
+# Git Branching Workflow Extension Configuration
+# Copied to .forge/extensions/git/git-config.yml on install
+
+# Branch numbering strategy: "sequential" (001, 002, ...) or "timestamp" (YYYYMMDD-HHMMSS)
+branch_numbering: sequential
+
+# Commit message used by `git commit` during repository initialization
+init_commit_message: "[Forge Kit] Initial commit"
+
+# Auto-commit before/after core commands.
+# Set "default" to enable for all commands, then override per-command.
+# Each key can be true/false. Message is customizable per-command.
+auto_commit:
+  default: false
+  before_signal:
+    enabled: false
+    message: "[Forge Kit] Save progress before signal capture"
+  before_hypothesize:
+    enabled: false
+    message: "[Forge Kit] Save progress before hypothesis"
+  before_decide:
+    enabled: false
+    message: "[Forge Kit] Save progress before decision"
+  before_feature:
+    enabled: false
+    message: "[Forge Kit] Save progress before feature spec"
+  before_experiment:
+    enabled: false
+    message: "[Forge Kit] Save progress before experiment"
+  before_release:
+    enabled: false
+    message: "[Forge Kit] Save progress before release"
+  before_retrospect:
+    enabled: false
+    message: "[Forge Kit] Save progress before retrospective"
+  after_constitution:
+    enabled: false
+    message: "[Forge Kit] Add project constitution"
+  after_signal:
+    enabled: false
+    message: "[Forge Kit] Capture signal"
+  after_hypothesize:
+    enabled: false
+    message: "[Forge Kit] Formulate hypothesis"
+  after_decide:
+    enabled: false
+    message: "[Forge Kit] Record decision"
+  after_feature:
+    enabled: false
+    message: "[Forge Kit] Add feature specification"
+  after_experiment:
+    enabled: false
+    message: "[Forge Kit] Design experiment"
+  after_release:
+    enabled: false
+    message: "[Forge Kit] Create release manifest"
+  after_retrospect:
+    enabled: false
+    message: "[Forge Kit] Run retrospective"
+  before_check:
+    enabled: false
+    message: "[Forge Kit] Save progress before quality check"
+  after_check:
+    enabled: false
+    message: "[Forge Kit] Quality check results"
+  before_graph:
+    enabled: false
+    message: "[Forge Kit] Save progress before graph update"
+  after_graph:
+    enabled: false
+    message: "[Forge Kit] Graph update"
+  before_analyze:
+    enabled: false
+    message: "[Forge Kit] Save progress before analysis"
+  after_analyze:
+    enabled: false
+    message: "[Forge Kit] Analysis results"
+  before_clarify:
+    enabled: false
+    message: "[Forge Kit] Save progress before clarification"
+  after_clarify:
+    enabled: false
+    message: "[Forge Kit] Clarification results"
+  before_checklist:
+    enabled: false
+    message: "[Forge Kit] Save progress before checklist"
+  after_checklist:
+    enabled: false
+    message: "[Forge Kit] Checklist results"
+  before_constitution:
+    enabled: false
+    message: "[Forge Kit] Save progress before constitution update"
+  before_ai_analyze:
+    enabled: false
+    message: "[Forge Kit] Save progress before AI analysis"
+  after_ai_analyze:
+    enabled: false
+    message: "[Forge Kit] AI analysis results"
+  before_ai_critique:
+    enabled: false
+    message: "[Forge Kit] Save progress before AI critique"
+  after_ai_critique:
+    enabled: false
+    message: "[Forge Kit] AI critique results"
+  before_ai_blind_spots:
+    enabled: false
+    message: "[Forge Kit] Save progress before blind spot detection"
+  after_ai_blind_spots:
+    enabled: false
+    message: "[Forge Kit] Blind spot detection results"

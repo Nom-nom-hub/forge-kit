@@ -1,0 +1,25 @@
+{
+  "title": "Forge Kit",
+  "description": "Forge Kit is an open source toolkit for Feature-Oriented Requirements & Governance Engine (FORGE) — a living systems methodology that helps software teams build what matters by treating requirements as signals, features as hypotheses, and decisions as first-class artifacts. It provides the Forge CLI, slash-command templates, extensions, presets, workflows, and integrations for popular AI coding agents.",
+  "creators": [
+    {
+      "name": "Teck"
+    }
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "keywords": [
+    "forge methodology",
+    "signal-driven development",
+    "ai coding agents",
+    "software engineering",
+    "cli"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/teck/forge-kit",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# These owners will be the default owners for everything in the repo
+* @teck
+
+# Source code
+/src/ @teck
+
+# Templates
+/templates/ @teck
+
+# Documentation
+/docs/ @teck
