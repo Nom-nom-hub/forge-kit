@@ -1,0 +1,165 @@
+name: Extension Submission
+description: Submit your extension to the Forge Kit extension catalog
+title: "[Extension]: Add "
+labels: ["extension-submission", "enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing an extension! This template helps you submit your extension to the community catalog.
+
+        **Before submitting:**
+        - Review the [Extension Development Guide](https://github.com/Nom-nom-hub/forge-kit/blob/main/extensions/README.md)
+        - Ensure your extension has a valid `extension.yml` manifest
+        - Create a GitHub release with a version tag (e.g., v1.0.0)
+        - Test installation from the release archive: `forge extensions install --from <download-url>`
+
+  - type: input
+    id: extension-id
+    attributes:
+      label: Extension ID
+      description: Unique extension identifier (lowercase with hyphens only)
+      placeholder: "e.g., my-extension"
+    validations:
+      required: true
+
+  - type: input
+    id: extension-name
+    attributes:
+      label: Extension Name
+      description: Human-readable extension name
+      placeholder: "e.g., My Extension"
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Semantic version number
+      placeholder: "e.g., 1.0.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Brief description of what your extension does (under 200 characters)
+      placeholder: Adds automated signal triage and prioritization workflows to Forge Kit
+    validations:
+      required: true
+
+  - type: input
+    id: author
+    attributes:
+      label: Author
+      description: Your name or organization
+      placeholder: "e.g., Jane Doe or Acme Corp"
+    validations:
+      required: true
+
+  - type: input
+    id: repository
+    attributes:
+      label: Repository URL
+      description: GitHub repository URL for your extension
+      placeholder: "https://github.com/your-org/forge-kit-your-extension"
+    validations:
+      required: true
+
+  - type: input
+    id: download-url
+    attributes:
+      label: Download URL
+      description: URL to the GitHub release archive (e.g., https://github.com/your-org/forge-kit-extension-your-ext/archive/refs/tags/v1.0.0.zip)
+      placeholder: "https://github.com/your-org/forge-kit-extension-your-ext/archive/refs/tags/v1.0.0.zip"
+    validations:
+      required: true
+
+  - type: input
+    id: license
+    attributes:
+      label: License
+      description: Open source license type
+      placeholder: "e.g., MIT, Apache-2.0"
+    validations:
+      required: true
+
+  - type: input
+    id: forge-version
+    attributes:
+      label: Required Forge Kit Version
+      description: Minimum Forge Kit version required
+      placeholder: "e.g., >=0.1.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: hooks-provided
+    attributes:
+      label: Hooks Provided
+      description: List the extension hooks your extension provides (if any)
+      placeholder: |
+        - before_feature: Custom validation before feature creation
+        - after_signal: Post-processing for new signals
+    validations:
+      required: true
+
+  - type: input
+    id: commands-count
+    attributes:
+      label: Number of Commands
+      description: How many custom commands does your extension provide?
+      placeholder: "e.g., 2"
+
+  - type: textarea
+    id: tags
+    attributes:
+      label: Tags
+      description: 2-5 relevant tags (lowercase, separated by commas)
+      placeholder: "triage, prioritization, automation"
+    validations:
+      required: true
+
+  - type: textarea
+    id: features
+    attributes:
+      label: Key Features
+      description: List the main features and capabilities of your extension
+      placeholder: |
+        - Automated signal triage based on configurable rules
+        - Priority scoring for incoming signals
+        - Integration with external issue trackers
+
+  - type: checkboxes
+    id: testing
+    attributes:
+      label: Testing Checklist
+      description: Confirm that your extension has been tested
+      options:
+        - label: Extension installs successfully via `forge extensions install`
+          required: true
+        - label: Commands execute correctly after installation
+          required: true
+        - label: Documentation is complete and accurate
+          required: true
+        - label: Tested on at least one real project
+          required: true
+
+  - type: checkboxes
+    id: requirements
+    attributes:
+      label: Submission Requirements
+      description: Verify your extension meets all requirements
+      options:
+        - label: Valid `extension.yml` manifest included
+          required: true
+        - label: README.md with description and usage instructions
+          required: true
+        - label: LICENSE file included
+          required: true
+        - label: GitHub release created with version tag
+          required: true
+        - label: Extension ID follows naming conventions (lowercase-with-hyphens)
+          required: true
