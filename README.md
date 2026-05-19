@@ -8,9 +8,9 @@
 </p>
 
 <p align="center">
-    <a href="#"><img src="https://img.shields.io/github/v/release/teck/forge-kit" alt="Latest Release"/></a>
-    <a href="#"><img src="https://img.shields.io/github/stars/teck/forge-kit?style=social" alt="GitHub stars"/></a>
-    <a href="./LICENSE"><img src="https://img.shields.io/github/license/teck/forge-kit" alt="License"/></a>
+    <a href="#"><img src="https://img.shields.io/github/v/release/Nom-nom-hub/forge-kit" alt="Latest Release"/></a>
+    <a href="#"><img src="https://img.shields.io/github/stars/Nom-nom-hub/forge-kit?style=social" alt="GitHub stars"/></a>
+    <a href="./LICENSE"><img src="https://img.shields.io/github/license/Nom-nom-hub/forge-kit" alt="License"/></a>
 </p>
 
 ---
@@ -62,7 +62,7 @@ LAW III: The system must always know what it doesn't know.
 Requires **[uv](https://docs.astral.sh/uv/)**:
 
 ```bash
-uv tool install forge-cli --from git+https://github.com/teck/forge-kit.git@v0.1.0
+uv tool install forge-cli --from git+https://github.com/Nom-nom-hub/forge-kit.git@v0.1.0
 ```
 
 ### 2. Initialize a project
@@ -156,7 +156,7 @@ FORGE is built on these principles:
 
 ##  Support
 
-For support, please open a [GitHub issue](https://github.com/teck/forge-kit/issues/new).
+For support, please open a [GitHub issue](https://github.com/Nom-nom-hub/forge-kit/issues/new).
 
 ## 📄 License
 

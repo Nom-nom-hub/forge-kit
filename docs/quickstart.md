@@ -3,7 +3,7 @@
 ## 1. Install Forge CLI
 
 ```bash
-uv tool install forge-cli --from git+https://github.com/teck/forge-kit.git
+uv tool install forge-cli --from git+https://github.com/Nom-nom-hub/forge-kit.git
 ```
 
 ## 2. Initialize a Project
