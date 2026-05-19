@@ -14,7 +14,7 @@ abstract: >-
 authors:
   - given-names: Teck
     family-names: Forge
-repository-code: "https://github.com/teck/forge-kit"
+repository-code: "https://github.com/Nom-nom-hub/forge-kit"
 license: MIT
 version: "0.1.0"
 date-released: "2026-06-01"

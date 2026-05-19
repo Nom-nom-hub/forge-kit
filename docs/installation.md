@@ -11,19 +11,19 @@
 ### Using uv (recommended)
 
 ```bash
-uv tool install forge-cli --from git+https://github.com/teck/forge-kit.git
+uv tool install forge-cli --from git+https://github.com/Nom-nom-hub/forge-kit.git
 ```
 
 ### Using pipx
 
 ```bash
-pipx install forge-cli --from git+https://github.com/teck/forge-kit.git
+pipx install forge-cli --from git+https://github.com/Nom-nom-hub/forge-kit.git
 ```
 
 ### From source
 
 ```bash
-git clone https://github.com/teck/forge-kit.git
+git clone https://github.com/Nom-nom-hub/forge-kit.git
 cd forge-kit
 uv sync
 uv run forge --help
