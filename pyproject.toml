@@ -5,7 +5,7 @@ description = "Forge CLI, part of Forge Kit. A toolkit to bootstrap your project
 requires-python = ">=3.11"
 dependencies = [
     "typer>=0.24.0",
-    "click>=8.2.1",
+    "click>=8.4.0",
     "rich",
     "platformdirs",
     "readchar",
