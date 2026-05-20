@@ -9,7 +9,7 @@ dependencies = [
     "rich",
     "platformdirs",
     "readchar",
-    "questionary>=2.1.0",
+    "questionary>=2.1.1",
     "pyyaml>=6.0.3",
     "packaging>=26.2",
     "pathspec>=0.12.0",
