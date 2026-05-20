@@ -4,7 +4,7 @@ version = "0.2.0"
 description = "Forge CLI, part of Forge Kit. A toolkit to bootstrap your projects for Feature-Oriented Requirements & Governance Engine (FORGE)."
 requires-python = ">=3.11"
 dependencies = [
-    "typer>=0.24.0",
+    "typer>=0.25.1",
     "click>=8.2.1",
     "rich",
     "platformdirs",
